@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
-use std::hash::{Hash, Hasher};
 use std::collections::HashSet;
+use std::hash::{Hash, Hasher};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum Value {
@@ -58,12 +58,11 @@ pub struct RowVersion {
     pub row: Row,
     pub t_created: u64,
     pub t_deleted: Option<u64>,
-
 }
 
-fn visible(version: &RowVersion, tx_id: u64,active_txs: &HashSet<u64>) -> bool {
-   // current transaction created
-    if version.t_created  == tx_id {
+pub(crate) fn visible(version: &RowVersion, tx_id: u64, active_txs: &HashSet<u64>) -> bool {
+    // current transaction created
+    if version.t_created == tx_id {
         if let Some(deleted) = version.t_deleted {
             //deleted by current transaction
             if deleted == tx_id {
