@@ -1,2 +1,3 @@
+mod hash;
 mod row;
-mod value;
+mod visible;
