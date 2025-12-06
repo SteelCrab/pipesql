@@ -10,11 +10,11 @@ mod tests {
         s.finish()
     }
 
-    // PartialEq 테스트
+    // PartialEq test
     #[test]
     fn test_value_equality() {
         assert_eq!(Value::Integer(42), Value::Integer(42));
-        assert_eq!(Value::Float(3.14), Value::Float(3.14));
+        assert_eq!(Value::Float(1.14), Value::Float(1.14));
         assert_eq!(
             Value::String("hello".to_string()),
             Value::String("hello".to_string())
@@ -23,7 +23,7 @@ mod tests {
         assert_eq!(Value::Null, Value::Null);
     }
 
-    // Hash 테스트 - 동일한 값
+    // Hash test - same values
     #[test]
     fn test_hash_integer_same() {
         let h1 = calculate_hash(&Value::Integer(42));
@@ -40,8 +40,8 @@ mod tests {
 
     #[test]
     fn test_hash_float_same() {
-        let h1 = calculate_hash(&Value::Float(3.14));
-        let h2 = calculate_hash(&Value::Float(3.14));
+        let h1 = calculate_hash(&Value::Float(1.14));
+        let h2 = calculate_hash(&Value::Float(1.14));
         assert_eq!(h1, h2);
     }
 
