@@ -2,7 +2,7 @@
 
 [![Rust](https://img.shields.io/badge/Rust-1.91.1+-orange.svg)](https://www.rust-lang.org/)
 [![QUIC](https://img.shields.io/badge/Protocol-QUIC-green.svg)](https://quicwg.org/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache2.0-blue.svg)](LICENSE)
 
 > 🚀**A lightweight relational database management system in Rust with QUIC protocol support**
 
