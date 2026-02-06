@@ -3,6 +3,7 @@
 [![Rust](https://img.shields.io/badge/Rust-1.91.1+-orange.svg)](https://www.rust-lang.org/)
 [![QUIC](https://img.shields.io/badge/Protocol-QUIC-green.svg)](https://quicwg.org/)
 [![License](https://img.shields.io/badge/License-Apache2.0-blue.svg)](LICENSE)
+[![Coverage](https://img.shields.io/badge/Coverage-50%25+-brightgreen.svg)]()
 
 > 🚀**A lightweight relational database management system in Rust with QUIC protocol support**
 
@@ -40,6 +41,19 @@
 
 ### architecture
 ![Architecture Diagram](./images/architecture.png)
+
+
+### test
+
+```shell
+cargo test --all-features -- --nocapture
+```
+### code_coverage 
+
+```shell
+cargo install cargo-llvm-cov
+cargo llvm-cov --all-features -- --nocapture
+```
 
 ## contributing 🖐️
 
