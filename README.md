@@ -55,6 +55,12 @@ cargo install cargo-llvm-cov
 cargo llvm-cov --all-features -- --nocapture
 ```
 
+## Roadmap 🗺️
+
+Check out our development roadmap:
+* [Roadmap (English)](./ROADMAP.md)
+* [Roadmap (Korean)](./ROADMAP_KR.md)
+
 ## contributing 🖐️
 
 Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) before submitting a pull request.
