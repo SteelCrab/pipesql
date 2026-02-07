@@ -13,61 +13,74 @@
 
 ---
 
-## Phase 1: Foundation
+## Phase 1: Foundation & Interactive Shell
 
-> Completion of the project's core infrastructure
+> **Goal**: Successful project build + typeable REPL shell
 
 | Task | Description | Status |
 |------|-------------|--------|
 | REPL Basic UI | ratatui-based terminal UI | ✅  |
 | Keyboard Event Handling | crossterm event loop | ✅  |
-| Activate Storage Module | Enable module in `lib.rs` |   |
-| Enable Test Code | Restore commented-out tests |   |
-| Cleanup Project Settings | Update Cargo.toml edition |   |
+| Cleanup Project Settings |  fix code typos (`reuslt`→`result`, `ecs`→`esc`) |   |
+| Activate Storage Module | Uncomment in `lib.rs`, restore tests, fix compile errors |   |
+| REPL Layout | 3-panel layout: input area + result area + status bar |   |
+| Text Input Handling | Character input, backspace, cursor movement, Enter to execute |   |
+| Basic Meta Commands | `.quit`, `.help` (commands that work without SQL) |   |
+| Error Handling Structure | Unified error type definition, REPL error message display area |   |
+
+**Phase 1 complete**: Launch app → type text → Enter echoes input (no SQL execution yet)
 
 ---
 
-## Phase 2: Storage Engine
+## Phase 2: Storage Engine + Basic SQL
 
-> Core features for in-memory data storage
+> **Goal**: `CREATE TABLE` → `INSERT` → `SELECT *` end-to-end working
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Extend Data Types | Add `Text`, `Boolean`, `Float`, `Timestamp` |   |
-| CRUD Operations | Implement Insert, Select, Update, Delete |   |
-| DashMap Integration | Lock-free concurrent table storage |   |
-| Primary Key | Primary key constraints |   |
-| Indexing | B-Tree based indexing |   |
+| Extend Data Types | Add `Text`, `Boolean`, `Float` (currently Integer only) |   |
+| Basic SQL Tokenizer | SQL string → token separation |   |
+| AST Parser (Basic) | Parse `CREATE TABLE`, `INSERT INTO`, `SELECT * FROM` |   |
+| Storage CRUD (Basic) | Create/drop table, insert row, select all rows |   |
+| Execution Engine Integration | SQL input → parser → storage → return results |   |
+| Result Table Display | Formatted table output in REPL result area |   |
+
+**Phase 2 complete**: Real SQL input → create table → insert data → query results
 
 ---
 
-## Phase 3: SQL Parser & Executor
+## Phase 3: SQL Feature Completion
 
-> SQL query processing pipeline
+> **Goal**: Practical level of SQL support
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Tokenizer | SQL lexing stage |   |
-| AST Parser | `CREATE`, `INSERT`, `SELECT`, `UPDATE`, `DELETE` |   |
-| Query Planner | Establish execution plans |   |
-| Query Executor | Execute with storage integration |   |
-| WHERE Clause | Conditional filtering |   |
+| WHERE Clause | Conditional filtering (`=`, `<`, `>`, `!=`, `AND`, `OR`) |   |
+| UPDATE | Conditional data modification |   |
+| DELETE | Conditional data deletion |   |
+| SELECT Extension | Column selection, selective queries beyond `*` |   |
 | ORDER BY / LIMIT | Sorting and paging |   |
+| Primary Key | Primary key constraints |   |
+| Error Message Improvement | Parse error position display, detailed execution errors |   |
+
+**Phase 3 complete**: Basic CRUD + filtering + sorting SQL DB
 
 ---
 
-## Phase 4: REPL Completion (Interactive Shell)
+## Phase 4: Polish & Quality
 
-> User-friendly terminal interface
+> **Goal**: UX completion + concurrency foundation
 
 | Task | Description | Status |
 |------|-------------|--------|
-| SQL Input Area | Multi-line input support |   |
-| Display Result Table | Formatted query result output |   |
-| Command History | Integration with rustyline |   |
-| Autocomplete | Table names, column names, keywords |   |
-| Error Display | Friendly error message UI |   |
-| Meta Commands | `.tables`, `.schema`, `.help`, etc. |   |
+| Command History | Up/down arrow key navigation through previous commands |   |
+| Autocomplete | Table names, column names, SQL keyword Tab completion |   |
+| Multi-line Input | Continue input on next line when `;` is missing |   |
+| Extended Meta Commands | `.tables`, `.schema`, `.describe <table>` |   |
+| DashMap Integration | Lock-free concurrent table storage |   |
+| B-Tree Indexing | Index-based query optimization |   |
+
+**Phase 4 complete**: Ready for v0.1.0 release
 
 ---
 
@@ -75,7 +88,7 @@
 
 > Release v0.1.0 upon completion of Phase 1-4
 >
-> **Core Features**: SQL Parser + Basic Query Execution + REPL Interface
+> **Core Features**: REPL Interface + SQL Parser + Storage Engine + CRUD/Filtering/Sorting
 
 ---
 
@@ -180,11 +193,14 @@
 
 Priority tasks for completing Phase 1:
 
-1. `src/lib.rs` - Uncomment storage module
-2. `src/tests/table.rs` - Enable test code
-3. `Cargo.toml` - Update edition to `"2021"`
-4. REPL - Add SQL input functionality
-5. Storage - Implement basic CRUD operations
+1. `Cargo.toml` - Update edition to `"2021"`
+2. Fix code typos - `reuslt`→`result`, `ecs`→`esc`
+3. `src/lib.rs` - Uncomment storage module
+4. `src/tests/table.rs` - Enable tests and fix compile errors
+5. REPL 3-panel layout - Input area + result area + status bar
+6. Text input handling - Character input, backspace, cursor movement, Enter to execute
+7. Basic meta commands - `.quit`, `.help`
+8. Unified error type definition
 
 ---
 
@@ -192,7 +208,7 @@ Priority tasks for completing Phase 1:
 
 | Version | Goal | Phase |
 |---------|------|-------|
-| **v0.1.0** | **First Release - Complete Basic SQL DB Functionality** | **Phase 1-4** |
+| **v0.1.0** | **First Release - REPL + SQL CRUD + Filtering/Sorting** | **Phase 1-4** |
 | v0.2.0 | QUIC Network Server + Rust/Python SDK | Phase 5-5.5 |
 | v0.3.0 | Java/JavaScript SDK | Phase 6 |
 | v0.4.0 | JOIN, Aggregate Functions, Transactions | Phase 7 |

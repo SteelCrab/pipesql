@@ -13,69 +13,82 @@
 
 ---
 
-## Phase 1: 기반 구축 (Foundation)
+## Phase 1: 기반 구축 & REPL 쉘 (Foundation & Interactive Shell)
 
-> 프로젝트의 핵심 인프라 완성
+> **목표**: 프로젝트 정상 빌드 + 타이핑 가능한 REPL 쉘
 
 | 작업 | 설명 | 상태 |
 |------|------|------|
 | REPL 기본 UI | ratatui 기반 터미널 UI | ✅  |
 | 키보드 이벤트 처리 | crossterm 이벤트 루프 | ✅  |
-| Storage 모듈 활성화 | `lib.rs`에서 모듈 활성화 |   |
-| 테스트 코드 활성화 | 주석 처리된 테스트 복원 |   |
-| 프로젝트 설정 정리 | Cargo.toml edition 수정 |   |
+| 프로젝트 설정 정리 |  코드 오타 수정 (`reuslt`→`result`, `ecs`→`esc`) |   |
+| Storage 모듈 활성화 | `lib.rs` 주석 해제, 테스트 코드 복원, 컴파일 에러 수정 |   |
+| REPL 레이아웃 구현 | 화면 3분할: 입력 영역 + 결과 영역 + 상태바 |   |
+| 텍스트 입력 처리 | 문자 입력, 백스페이스, 커서 이동, Enter 실행 |   |
+| 기본 메타 명령어 | `.quit`, `.help` (SQL 없이 동작하는 것들) |   |
+| 에러 처리 구조 | 통합 에러 타입 정의, REPL 에러 메시지 표시 영역 |   |
+
+**Phase 1 완료 시**: 앱 실행 → 텍스트 입력 가능 → Enter 시 에코 출력 (아직 SQL 실행 없음)
 
 ---
 
-## Phase 2: 스토리지 엔진 (Storage Engine)
+## Phase 2: 스토리지 엔진 + 기본 SQL (Storage Engine + Basic SQL)
 
-> 인메모리 데이터 저장소 핵심 기능
+> **목표**: `CREATE TABLE` → `INSERT` → `SELECT *` end-to-end 동작
 
 | 작업 | 설명 | 상태 |
 |------|------|------|
-| 데이터 타입 확장 | `Text`, `Boolean`, `Float`, `Timestamp` 추가 |   |
-| CRUD 연산 | Insert, Select, Update, Delete 구현 |   |
-| DashMap 통합 | Lock-free 동시성 테이블 스토리지 |   |
-| Primary Key | 기본 키 제약 조건 |   |
-| 인덱싱 | B-Tree 기반 인덱스 |   |
+| 데이터 타입 확장 | `Text`, `Boolean`, `Float` 추가 (현재 Integer만) |   |
+| 기본 SQL 토크나이저 | SQL 문자열 → 토큰 분리 |   |
+| AST 파서 (기본) | `CREATE TABLE`, `INSERT INTO`, `SELECT * FROM` 파싱 |   |
+| Storage CRUD (기본) | 테이블 생성/삭제, Row 삽입, 전체 Row 조회 |   |
+| 실행 엔진 연결 | SQL 입력 → 파서 → 스토리지 → 결과 반환 |   |
+| 결과 테이블 표시 | REPL 결과 영역에 포맷팅된 테이블 출력 |   |
+
+**Phase 2 완료 시**: 실제 SQL 입력 → 테이블 생성 → 데이터 삽입 → 조회 가능
 
 ---
 
-## Phase 3: SQL 파서 및 실행기 (SQL Parser & Executor)
+## Phase 3: SQL 기능 확장 (SQL Feature Completion)
 
-> SQL 쿼리 처리 파이프라인
+> **목표**: 실용적 수준의 SQL 지원
 
 | 작업 | 설명 | 상태 |
 |------|------|------|
-| 토크나이저 | SQL 렉싱 단계 |   |
-| AST 파서 | `CREATE`, `INSERT`, `SELECT`, `UPDATE`, `DELETE` |   |
-| 쿼리 플래너 | 실행 계획 수립 |   |
-| 쿼리 실행기 | 스토리지 연동 실행 |   |
-| WHERE 절 | 조건부 필터링 |   |
+| WHERE 절 | 조건부 필터링 (`=`, `<`, `>`, `!=`, `AND`, `OR`) |   |
+| UPDATE | 조건부 데이터 수정 |   |
+| DELETE | 조건부 데이터 삭제 |   |
+| SELECT 확장 | 컬럼 지정, `*` 외 선택적 조회 |   |
 | ORDER BY / LIMIT | 정렬 및 페이징 |   |
+| Primary Key | 기본 키 제약 조건 |   |
+| 에러 메시지 개선 | 파싱 에러 위치 표시, 실행 에러 상세화 |   |
+
+**Phase 3 완료 시**: 기본적인 CRUD + 필터링 + 정렬이 가능한 SQL DB
 
 ---
 
-## Phase 4: REPL 완성 (Interactive Shell)
+## Phase 4: REPL 완성 & 품질 (Polish & Quality)
 
-> 사용자 친화적 터미널 인터페이스
+> **목표**: 사용성 완성 + 동시성 기반
 
 | 작업 | 설명 | 상태 |
 |------|------|------|
-| SQL 입력창 | 다중 라인 입력 지원 |   |
-| 결과 테이블 표시 | 포맷팅된 쿼리 결과 출력 |   |
-| 명령어 히스토리 | rustyline 연동 |   |
-| 자동완성 | 테이블명, 컬럼명, 키워드 |   |
-| 에러 표시 | 친화적인 에러 메시지 UI |   |
-| 메타 명령어 | `.tables`, `.schema`, `.help` 등 |   |
+| 명령어 히스토리 | 위/아래 키로 이전 명령 탐색 |   |
+| 자동완성 | 테이블명, 컬럼명, SQL 키워드 Tab 완성 |   |
+| 다중 라인 입력 | `;` 없으면 다음 줄 이어서 입력 |   |
+| 메타 명령어 확장 | `.tables`, `.schema`, `.describe <table>` |   |
+| DashMap 통합 | Lock-free 동시성 테이블 스토리지 |   |
+| B-Tree 인덱싱 | 인덱스 기반 조회 최적화 |   |
+
+**Phase 4 완료 시**: v0.1.0 릴리스 가능 수준
 
 ---
 
 ## v0.1.0 Release
 
 > Phase 1-4 완료 시 v0.1.0 릴리스
-> 
-> **핵심 기능**: SQL 파서 + 기본 쿼리 실행 + REPL 인터페이스
+>
+> **핵심 기능**: REPL 인터페이스 + SQL 파서 + 스토리지 엔진 + CRUD/필터링/정렬
 
 ---
 
@@ -180,11 +193,14 @@
 
 현재 Phase 1 완료를 위한 우선 작업:
 
-1. `src/lib.rs` - storage 모듈 주석 해제
-2. `src/tests/table.rs` - 테스트 코드 활성화
-3. `Cargo.toml` - edition을 `"2021"`로 수정
-4. REPL - SQL 입력 기능 추가
-5. Storage - 기본 CRUD 연산 구현
+1. `Cargo.toml` - edition을 `"2021"`로 수정
+2. 코드 오타 수정 - `reuslt`→`result`, `ecs`→`esc`
+3. `src/lib.rs` - storage 모듈 주석 해제
+4. `src/tests/table.rs` - 테스트 코드 활성화 및 컴파일 에러 수정
+5. REPL 레이아웃 3분할 - 입력 영역 + 결과 영역 + 상태바
+6. 텍스트 입력 처리 - 문자 입력, 백스페이스, 커서 이동, Enter 실행
+7. 기본 메타 명령어 - `.quit`, `.help`
+8. 통합 에러 타입 정의
 
 ---
 
@@ -192,7 +208,7 @@
 
 | 버전 | 목표 | Phase |
 |------|------|-------|
-| **v0.1.0** | **첫 릴리스 - 기본 SQL DB 기능 완성** | **Phase 1-4** |
+| **v0.1.0** | **첫 릴리스 - REPL + SQL CRUD + 필터링/정렬** | **Phase 1-4** |
 | v0.2.0 | QUIC 네트워크 서버 + Rust/Python SDK | Phase 5-5.5 |
 | v0.3.0 | Java/JavaScript SDK | Phase 6 |
 | v0.4.0 | JOIN, 집계 함수, 트랜잭션 | Phase 7 |
