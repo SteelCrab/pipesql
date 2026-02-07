@@ -21,7 +21,7 @@
 |------|-------------|--------|
 | REPL Basic UI | ratatui-based terminal UI | ✅  |
 | Keyboard Event Handling | crossterm event loop | ✅  |
-| Cleanup Project Settings |  fix code typos (`reuslt`→`result`, `ecs`→`esc`) |   |
+| Cleanup Project Settings |  fix code typos (`reuslt`→`result`, `ecs`→`esc`) | ✅ |
 | Activate Storage Module | Uncomment in `lib.rs`, restore tests, fix compile errors |   |
 | REPL Layout | 3-panel layout: input area + result area + status bar |   |
 | Text Input Handling | Character input, backspace, cursor movement, Enter to execute |   |

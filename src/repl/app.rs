@@ -24,9 +24,9 @@ impl App {
 
     pub fn run(&mut self) -> io::Result<()> {
         let mut terminal = ratatui::init();
-        let reuslt = self.run_loop(&mut terminal);
+        let result = self.run_loop(&mut terminal);
         ratatui::restore();
-        reuslt
+        result
     }
 
     fn run_loop(&mut self, terminal: &mut DefaultTerminal) -> io::Result<()> {
