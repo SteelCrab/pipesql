@@ -12,7 +12,7 @@ mod tests {
     use super::*;
     use crossterm::event::{KeyCode, KeyEvent};
     #[test]
-    fn test_handle_key_ecs() {
+    fn test_handle_key_exit() {
         let mut app = App::new();
         handle_key(&mut app, KeyEvent::from(KeyCode::Esc));
         assert!(!app.is_running());
