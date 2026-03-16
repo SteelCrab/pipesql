@@ -64,3 +64,7 @@ Check out our development roadmap:
 ## contributing 🖐️
 
 Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) before submitting a pull request.
+
+## ko-fi ☕️
+
+https://ko-fi.com/pistacrab
